@@ -3,56 +3,65 @@ package ex5;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Caisse {
+/**
+ * Représente une caisse qui peut contenir des items et qui a des conditions d'acceptation.
+ */
+public class Caisse implements CaisseAccepteur {
 
     private String nom;
     private List<Item> items;
+    private int poidsMin;
+    private int poidsMax;
 
     /**
-     * Constructeur
+     * Constructeur pour initialiser une caisse.
      *
-     * @param nom
+     * @param nom le nom de la caisse
+     * @param poidsMin le poids minimum accepté par la caisse
+     * @param poidsMax le poids maximum accepté par la caisse
      */
-    public Caisse(String nom) {
-        super();
+    public Caisse(String nom, int poidsMin, int poidsMax) {
         this.nom = nom;
+        this.poidsMin = poidsMin;
+        this.poidsMax = poidsMax;
         this.items = new ArrayList<>();
     }
 
     /**
-     * Getter pour l'attribut nom
+     * Détermine si cette caisse accepte l'item en fonction de son poids.
      *
-     * @return the nom
+     * @param item l'item à vérifier
+     * @return true si l'item est accepté, false sinon
      */
-    public String getNom() {
-        return nom;
+    @Override
+    public boolean accepteItem(Item item) {
+        int poids = item.getPoids();
+        return poids >= poidsMin && (poidsMax == 0 || poids <= poidsMax);
     }
 
     /**
-     * Setter pour l'attribut nom
+     * Ajoute un item à la caisse.
      *
-     * @param nom the nom to set
+     * @param item l'item à ajouter
      */
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void addItem(Item item) {
+        items.add(item);
     }
 
     /**
-     * Getter pour l'attribut items
+     * Retourne la liste des items dans la caisse.
      *
-     * @return the items
+     * @return la liste des items
      */
     public List<Item> getItems() {
         return items;
     }
 
-    /**
-     * Setter pour l'attribut items
-     *
-     * @param items the items to set
-     */
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public String getNom() {
+        return nom;
     }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 }
